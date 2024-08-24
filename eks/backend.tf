@@ -10,7 +10,7 @@ terraform {
     bucket         = "devsecops-bucketone"
     region         = "ap-south-1"
     key            = "eks/terraform.tfstate"
-    dynamodb_table = "Lock-Files"
+    dynamodb_table = "devsecops-dynamodb-table"
     encrypt        = true
   }
 }
