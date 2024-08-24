@@ -25,7 +25,14 @@ pipeline {
         stage('Init') {
             steps {
                 withAWS(credentials: 'aws-creds', region: 'us-east-1') {
-                sh 'terraform -chdir=eks/ init'
+                script {
+                try {
+                    sh 'terraform -chdir=eks/ init'
+                } catch (Exception e) {
+                    echo "Backend configuration has changed, attempting to reconfigure..."
+                    // Attempt reconfiguration if backend changes are detected
+                    sh 'terraform -chdir=eks/ init -reconfigure'
+                }
                 }
             }
         }
